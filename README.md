@@ -1,9 +1,34 @@
-# FleetLink Backend
+# Fleetlink
 
-## Run locally
-1. Copy `.env.example` to `.env` and ensure MongoDB is running locally.
-2. Install deps: `npm install`
-3. Start dev server: `npm run dev`
+Fleetlink is a full-stack fleet management application designed to streamline vehicle tracking, maintenance scheduling, and driver management. Built with a modern MERN stack, Fleetlink aims to provide companies with an efficient, scalable solution for managing their fleet operations in real-time.
+
+## Features
+
+- Add, update, and delete vehicles in the fleet  
+- Track vehicle status and availability  
+- Assign drivers to vehicles  
+- Schedule maintenance and generate reminders  
+- RESTful API for seamless integration  
+- Real-time data management using MongoDB  
+
+---
+
+## Tech Stack
+
+- **Frontend:** React.js, Tailwind CSS  
+- **Backend:** Node.js, Express.js  
+- **Database:** MongoDB with Mongoose  
+- **Testing:** Jest, Supertest  
+- **Other Tools:** MongoMemoryServer for in-memory testing, Git for version control  
+
+## Run locally :
+npm install
+PORT=5000
+MONGO_URI=<your-mongodb-uri>
+NODE_ENV=development
+npm run dev
+cd frontend
+npm run dev/ npm start
 
 ## Endpoints
 - POST /api/vehicles  → { name, capacityKg, tyres }
