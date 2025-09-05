@@ -16,35 +16,7 @@ export default function VehicleCard({ vehicle, onSelect }) {
           : "hover:shadow-xl hover:-translate-y-1"
       }`}
     >
-      {/* Status Badge */}
-      <div className="absolute top-3 right-3">
-        <span
-          className={`inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full ${
-            vehicle.status === "booked"
-              ? "bg-red-100 text-red-600"
-              : "bg-green-100 text-green-600"
-          }`}
-          aria-label={`Vehicle status: ${vehicle.status || "Available"}`}
-        >
-          {vehicle.status === "booked" ? (
-            <>
-              <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
-              </svg>
-              Booked
-            </>
-          ) : (
-            <>
-              <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-              </svg>
-              Available
-            </>
-          )}
-        </span>
-      </div>
-
-      {/* Image Section */}
+      {/* Image Section with Status Text Overlay */}
       <div className="relative h-48">
         {imageLoading && !imageError && (
           <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 animate-pulse rounded-t-xl"></div>
@@ -61,6 +33,33 @@ export default function VehicleCard({ vehicle, onSelect }) {
             setImageError(true);
           }}
         />
+        {/* Status Text Overlay */}
+        <div className="absolute top-3 left-3">
+          <span
+            className={`inline-flex items-center px-3 py-1 text-sm font-medium rounded-full ${
+              vehicle.status === "booked"
+                ? "bg-red-600/80 text-white"
+                : "bg-green-600/80 text-white"
+            } backdrop-blur-sm`}
+            aria-label={`Vehicle status: ${vehicle.status || "Available"}`}
+          >
+            {vehicle.status === "booked" ? (
+              <>
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
+                </svg>
+                Booked
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Available
+              </>
+            )}
+          </span>
+        </div>
       </div>
 
       {/* Content Section */}

@@ -7,8 +7,9 @@ import SearchBook from "./pages/SearchBook";
 import Vehicles from "./pages/Vehicles";
 import Booking from "./pages/Bookings";
 import Home from "./pages/Home";
-
+// import { counter } from "./pages/counter";
 function App() {
+  
   return (
     <Router>
       <div className="flex flex-col min-h-screen">

@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import VehicleCard from "../components/VehicleCart"; 
 
 export default function SearchBook() {
   const [form, setForm] = useState({
     capacityRequired: "",
     fromPincode: "",
     toPincode: "",
-    startTime: null, // Changed to null for DatePicker
+    startTime: null,
     customerId: "",
   });
   const [results, setResults] = useState([]);
@@ -41,8 +42,10 @@ export default function SearchBook() {
       const res = await axios.get("/vehicles/available", {
         params: { ...form, startTime: form.startTime.toISOString() },
       });
-      setResults(res.data.vehicles || []);
-      setMessage({ type: "info", text: `Found ${res.data.vehicles.length} vehicles` });
+      // Filter out booked vehicles
+      const availableVehicles = res.data.vehicles.filter(v => v.status !== "booked");
+      setResults(availableVehicles);
+      setMessage({ type: "info", text: `Found ${availableVehicles.length} vehicles` });
     } catch (err) {
       setMessage({ type: "error", text: err.response?.data?.error || "Failed to search vehicles" });
     }
@@ -227,33 +230,11 @@ export default function SearchBook() {
         {results.length > 0 && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((v) => (
-              <div
+              <VehicleCard
                 key={v._id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-lg transition-shadow duration-300"
-              >
-                <h3 className="text-lg font-bold text-gray-900 truncate">{v.name}</h3>
-                <div className="mt-3 space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Capacity</span>
-                    <span className="font-semibold text-gray-900">{v.capacityKg} kg</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Tyres</span>
-                    <span className="font-semibold text-gray-900">{v.tyres}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Est. Duration</span>
-                    <span className="font-semibold text-gray-900">{v.estimatedRideDurationHours} hrs</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleBook(v._id, v.name)}
-                  className="mt-4 w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200"
-                  aria-label={`Book ${v.name}`}
-                >
-                  Book Now
-                </button>
-              </div>
+                vehicle={v}
+                onSelect={() => handleBook(v._id, v.name)}
+              />
             ))}
           </div>
         )}

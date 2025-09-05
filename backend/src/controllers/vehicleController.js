@@ -22,10 +22,7 @@ export const addVehicle = async (req, res, next) => {
   }
 };
 
-/**
- * @desc Get all vehicles (raw, no status)
- * @route GET /api/vehicles
- */
+
 export const getVehicles = async (_req, res, next) => {
   try {
     const all = await Vehicle.find().lean();
@@ -35,11 +32,7 @@ export const getVehicles = async (_req, res, next) => {
   }
 };
 
-/**
- * @desc Find available vehicles for a given trip (based on capacity & time)
- * @route GET /api/vehicles/available
- * @query capacityRequired, fromPincode, toPincode, startTime
- */
+
 export const getAvailable = async (req, res, next) => {
   try {
     const { capacityRequired, fromPincode, toPincode, startTime } = req.query;
